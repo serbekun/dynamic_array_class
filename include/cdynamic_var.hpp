@@ -1,6 +1,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdexcept> // для std::runtime_error
 
 namespace stdx {
 
@@ -14,7 +15,11 @@ public:
     }
 
     std::vector<int>& get_array(const std::string& name) {
-        return vars[name];
+        auto it = vars.find(name);
+        if (it == vars.end()) {
+            throw std::runtime_error("Array '" + name + "' does not exist");
+        }
+        return it->second;
     }
 };
 
